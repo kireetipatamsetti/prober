@@ -21,6 +21,25 @@ while (sample_number < sample_size):
     request_time = time.time()
     latest_probes = session.get(oids)
     response_time = time.time()
+    if (len(old_probes) == len(latest_probes)):
+        if sample_frequency>1:
+            time_difference = request_time - old_time
+        else:
+            time_difference = request_time - old_time
+        
+            if time_difference != 0:
+                time_difference = int(time_difference)
+            else:
+                time_difference = int(sample_interval)
+        for i in range(1, len(oids)):
+            if latest_probes[i].snmp_type!="NOSUCHINSTANCE" and old_probes[i].snmp_type!="NOSUCHINSTANCE":
+                latest_value = int(latest_probes[i].value)
+                old_value = int(old_probes[i].value)
+                if latest_value >= old_value:
+                    rate = (latest_value - old_value) / time_difference
+                    rates += [rate]
+
+                    
     
                 
                 
