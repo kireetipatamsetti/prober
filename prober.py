@@ -1,6 +1,8 @@
 from easysnmp import Session
 import sys
 import time
+
+import easysnmp
 args = sys.argv[1].split(':')
 ipaddress = args[0]
 port = args[1]
@@ -16,10 +18,15 @@ latest_probes = []
 session = Session(hostname=ipaddress, remote_port=port,community=community,version=2)
 old_time = 0
 rates = []
-
+timeouts = 0
 while (sample_number < sample_size):
     request_time = time.time()
-    latest_probes = session.get(oids)
+    try:
+       latest_probes = session.get(oids)
+    except easysnmp.EasySNMPTimeoutError:
+        sample_number += 1
+        timeouts += 1
+        continue
     response_time = time.time()
     if (len(old_probes) == len(latest_probes)):
         if sample_frequency>1:
@@ -57,7 +64,7 @@ while (sample_number < sample_size):
     old_time = request_time
     if sample_interval > time.time() - request_time:
         time.sleep(sample_interval - time.time() + request_time)
-        
+    
     
     
     
