@@ -8,3 +8,9 @@ community = args[2]
 sample_frequency = float(sys.argv[2])
 sample_interval = 1/sample_frequency
 sample_size = int(sys.argv[4:])
+oids = ['1.3.6.1.2.1.1.3.0']
+oids += sys.argv[4:]
+sample_number = 0
+old_probes = []
+latest_probes = []
+session = Session(hostname=ipaddress, remote_port=port,community=community,version=2)
