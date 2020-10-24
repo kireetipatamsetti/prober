@@ -14,3 +14,15 @@ sample_number = 0
 old_probes = []
 latest_probes = []
 session = Session(hostname=ipaddress, remote_port=port,community=community,version=2)
+old_time = 0
+rates = []
+
+while (sample_number < sample_size):
+    request_time = time.time()
+    latest_probes = session.get(oids)
+    response_time = time.time()
+    
+                
+                
+    
+    
