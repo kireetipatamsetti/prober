@@ -52,6 +52,15 @@ while (sample_number < sample_size):
         print(int(request_time, '| '+' | '.join(map(str, rates))))
         sample_number += 1
     
+    rates = []
+    old_probes = latest_probes.copy
+    old_time = request_time
+    if sample_interval > time.time() - request_time:
+        time.sleep(sample_interval - time.time() + request_time)
+        
+    
+    
+    
                 
     
     
