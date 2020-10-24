@@ -39,9 +39,19 @@ while (sample_number < sample_size):
                     rate = (latest_value - old_value) / time_difference
                     rates += [rate]
 
-                    
+                else:
+                    if latest_probes[i].snmp_type == "COUNTER" and old_probes[i].snmp_type == "COUNTER":
+                        rate = ((2**32 + latest_value) - old_value) / time_difference
+                        rates += [rate]
+                    elif latest_probes[i].snmp_type == "COUNTER64" and old_probes[i].snmp_type == "COUNTER64":
+                        rate = ((2**64 + latest_value) - old_value) / time_difference
+                        rates += [rate]
+            else:
+                rates += [latest_probes[i].value]
+        
+        print(int(request_time, '| '+' | '.join(map(str, rates))))
+        sample_number += 1
     
-                
                 
     
     
